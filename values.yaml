@@ -1,0 +1,40 @@
+imageRepository: omerxdayan1
+exporter:
+  image:
+    base: tankes-exporter
+    tag: 0.1.0
+db:
+  host: tankes-story.coywnuinrvp3.eu-central-1.rds.amazonaws.com
+  port: 3306
+  user: "cosmic_server"
+  password: "snailshell"
+  scheme: "cosmic"
+redisdb: 
+  host: redis-master
+  port: 6379
+server:
+  ip: 18.198.159.139
+  expose:
+    enabled: true
+    aws: 
+      enabled: true
+      elasticAllocationId: "eipalloc-0454183c4391c5db7"
+  image:
+    base: tankes-story
+    tag: 0.2.0
+  redis: 
+    host: redis-master
+    port: 6379
+redis:
+  enabled: true
+  auth:
+    enabled: false
+  replica:
+    replicaCount: 1
+    persistence:
+      enabled: false
+  master:
+    persistence:
+      enabled: false
+prometheus:
+  enabled: true

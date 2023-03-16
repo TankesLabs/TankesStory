@@ -1,0 +1,11 @@
+apiVersion: core.tankes.story/v1alpha1
+kind: TankesRedisMetric
+metadata:
+  labels:
+    app: tankes-story
+  name: character-exp
+spec:
+  name: accumulated_exp
+  regex: (.+)_accumulated_exp
+  labelMatchingGroups:
+    - name

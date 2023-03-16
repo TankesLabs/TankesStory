@@ -1,0 +1,12 @@
+apiVersion: core.tankes.story/v1alpha1
+kind: TankesSqlMetric
+metadata:
+  labels:
+    app: tankes-story
+  name: account-loggedin
+spec:
+  name: account_loggedin
+  query: select name, loggedin from accounts
+  valueField: loggedin
+  labelFields:
+    - name

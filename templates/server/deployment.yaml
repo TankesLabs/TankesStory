@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tankes-story-server
+  labels:
+    app: tankes-story
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tankes-story-server
+  template:
+    metadata:
+      labels:
+        app: tankes-story-server
+    spec:
+      containers:
+      - name: server
+        image: {{ .Values.imageRepository }}/{{ .Values.server.image.base }}:{{ .Values.server.image.tag }}
+        imagePullPolicy: Always
+        env:
+        - name: DB_HOST
+          value: {{ .Values.db.host }}
+        volumeMounts:
+        - name: config
+          mountPath: /opt/server/config.yaml
+          subPath: config.yaml
+      volumes:
+      volumes:
+      - name: config
+        configMap:
+          name: config

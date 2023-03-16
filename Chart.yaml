@@ -1,0 +1,15 @@
+apiVersion: v2
+name: tankes-story
+description: A Helm chart for installing TankesStory
+type: application
+version: 0.1.1
+appVersion: "1.16.0"
+dependencies:
+- name: kube-prometheus-stack
+  condition: prometheus.enabled
+  version: 45.7.1
+  repository: https://prometheus-community.github.io/helm-charts
+- name: redis
+  condition: redis.enabled
+  version: 17.8.5
+  repository: https://charts.bitnami.com/bitnami

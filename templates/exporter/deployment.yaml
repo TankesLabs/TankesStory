@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: tankes-story
+  name: tankes-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.service: tankes-exporter
+  template:
+    metadata:
+      labels:
+        app.service: tankes-exporter
+    spec:
+      containers:
+      - args:
+        - --health-probe-bind-address=:8081
+        - --metrics-bind-address=0.0.0.0:8080
+        - --leader-elect
+        - --db-connection={{ .Values.db.user }}:{{ .Values.db.password }}@tcp({{ .Values.db.host }}:{{ .Values.db.port }})/{{ .Values.db.scheme }}
+        - --redis-connection={{ .Release.Name }}-{{ .Values.redisdb.host }}:{{ .Values.redisdb.port }}
+        command:
+        - /manager
+        image: {{ .Values.imageRepository }}/{{ .Values.exporter.image.base }}:{{ .Values.exporter.image.tag }}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        name: manager
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 10m
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+      securityContext:
+        runAsNonRoot: true
+      serviceAccountName: tankes-exporter
+      terminationGracePeriodSeconds: 10
