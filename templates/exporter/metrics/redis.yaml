@@ -1,0 +1,23 @@
+apiVersion: core.tankes.story/v1alpha1
+kind: TankesRedisMetric
+metadata:
+  labels:
+    app: tankes-story
+  name: character-exp
+spec:
+  name: accumulated_exp
+  regex: (.+)_accumulated_exp
+  labelMatchingGroups:
+    - name
+---
+apiVersion: core.tankes.story/v1alpha1
+kind: TankesRedisMetric
+metadata:
+  labels:
+    app: tankes-story
+  name: character-mesos
+spec:
+  name: accumulated_mesos
+  regex: (.+)_accumulated_mesos
+  labelMatchingGroups:
+    - name

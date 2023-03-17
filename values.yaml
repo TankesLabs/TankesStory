@@ -21,7 +21,7 @@ server:
       elasticAllocationId: "eipalloc-0454183c4391c5db7"
   image:
     base: tankes-story
-    tag: 0.2.0
+    tag: 0.3.0
   redis: 
     host: redis-master
     port: 6379
